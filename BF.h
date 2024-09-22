@@ -15,7 +15,7 @@ public:
 	int index(std::string S, std::string T, int pos)
 	{
 
-	if (pos<0)
+	if (pos<0||pos+T.size()>S.size())
 	{
 		return -1;//pos错误
 	}
@@ -24,7 +24,7 @@ public:
 	int i = pos;
 	int j = 0;
 
-	while (i < S.size()-T.size()+1 && j < T.size())//两个串均未比较到串尾
+	while (i < S.size() && j < T.size())//两个串均未比较到串尾
 	{
 		/*std::cout << i << " " << j << std::endl;*/
 		if (S[i] == T[j])//相等前移
@@ -48,5 +48,6 @@ public:
 	{
 		return -1;
 	}
+
 	}
 };

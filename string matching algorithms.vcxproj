@@ -132,6 +132,7 @@
   <ItemGroup>
     <ClInclude Include="BF.h" />
     <ClInclude Include="Index.h" />
+    <ClInclude Include="KMP.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
