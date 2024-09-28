@@ -29,5 +29,8 @@
     <ClInclude Include="KMP.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="BM.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
