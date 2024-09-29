@@ -3,4 +3,7 @@ D:\Visual Studio 2022\source\repos\string matching algorithms\string matching al
 D:\Visual Studio 2022\source\repos\string matching algorithms\string matching algorithms\KMP.h(33,10): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
 D:\Visual Studio 2022\source\repos\string matching algorithms\string matching algorithms\KMP.h(34,10): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
 D:\Visual Studio 2022\source\repos\string matching algorithms\string matching algorithms\KMP.h(66,13): warning C4267: “return”: 从“size_t”转换到“int”，可能丢失数据
+D:\Visual Studio 2022\source\repos\string matching algorithms\string matching algorithms\BM.h(26,12): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+D:\Visual Studio 2022\source\repos\string matching algorithms\string matching algorithms\BM.h(46,12): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+D:\Visual Studio 2022\source\repos\string matching algorithms\string matching algorithms\BM.h(82,12): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
   string matching algorithms.vcxproj -> D:\Visual Studio 2022\source\repos\string matching algorithms\x64\Debug\string matching algorithms.exe
