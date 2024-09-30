@@ -56,7 +56,9 @@ public:
 			if (i > g && suffix[i + lenT - 1 - f] < i - g)
 			{
 				//当i>g时，T[g+1,f]已经是匹配了T[lenT-1-f+g+1,lenT-1]
-				//
+				//根据对称性，此时T[i]等于T[i+lenT-1-f],
+				//当suffix[i+lenT-1-f]<i-g时，根据suffix的含义，T[i+lenT-1-f]为右边界的所匹配的字符串等于T[i]所匹配的字符串，
+				//所以suffix[i+lenT-1-f]<i-g，就可以直接映射suffix[i] = suffix[i + lenT - 1 - f]
 				/*std::cout << i << " " << g << " " << f << " ";
 				system("Pause");*/
 				suffix[i] = suffix[i + lenT - 1 - f];//继承之前计算的值
@@ -88,16 +90,93 @@ public:
 		for (int i = lenT - 2; i >= 0; i--)
 		{
 			int j = 0;//记录已经匹配长度
-			for (j; j <= i && T[i - j] == T[lenT - j - 1]; j++) {}
+			for (j; j <= i && T[i - j] == T[lenT - j - 1]; j++);
 			suffix[i] = j;
 		}
+
+	}
+
+
+
+	//生成好后缀偏移表
+	void preBmGs(std::string T,int BmGs[])
+	{
+		int j;
+
+		int lenT = T.size();
+
+		int* suffix = new int[T.size()];
+
+		suffixes(T, suffix);//生成suffix辅助表
+
+		for (int i = 0; i < lenT; i++)
+		{
+			BmGs[i] = lenT;//初始化BmGs，初始状态时没有子串和好后缀匹配所以移动距离为整个模式串的长度
+		}
+
+		j = 0;
+
+		for (int i = lenT - 1; i >= 0; i--)
+		{
+			if (suffix[i] == i + 1)//suffix[i] == i + 1 说明0到i的i + 1个字符和后缀匹配
+			{
+				for (j; j < lenT - 1 - i; j++)
+				{
+					if (BmGs[j] == lenT)
+					{
+						BmGs[j] = lenT - 1 - i;
+					}
+				}
+			}
+		}
+
+		for (int i = 0; i <= lenT - 2; i++)
+		{
+			BmGs[lenT - 1 - suffix[i]] = lenT - 1 - i;
+		}
+
+		delete suffix;//删除suffix
 
 	}
 
 	
 	int index(std::string S, std::string T, int pos)
 	{
-		return 0;
+		//预处理生成偏移表
+		int i,j;
+		int *BmGs = new int[T.size()];//好后缀
+		int* BmBc = new int[T.size()];//坏字符
+
+		int n = S.size(), m = T.size();
+
+		preBmGs(T, BmGs);
+		preBmBc(T, BmBc);
+
+		//查找匹配
+		j = 0;
+		while (j <= n - m)
+		{
+			for (i = m - 1; i >= 0 && T[i] == S[i + j]; --i);
+			if (i < 0)
+			{
+				//匹配成功
+				return j;
+				j += BmGs[0];
+			}
+			else
+			{
+				auto max = [&]()->int {
+					return BmGs[i] > BmGs[T[i + j]] - m + 1 + i ? BmGs[i] : BmGs[T[i + j]] - m + 1 + i;
+				};
+
+				j += max();
+
+			}
+		}
+
+		//匹配失败
+		return -1;
+
 	}
 
 
