@@ -1,11 +1,11 @@
 #include"BF.h"
 #include"KMP.h"
 #include"BM.h"
+#include"Sunday.h"
 
 
 
-
-
+//我所写的字符串匹配函数，皆是以数组下标为操作数，而非字符位置！！！
 int main()
 {
 
@@ -49,13 +49,15 @@ int main()
 
 	std::string S("maba66o");
 
-	std::string T("aa");
+	std::string T("a6");
 
 	BF bf;
 
 	KMP kmp;
 
 	BM bm;
+
+	Sunday sunday;
 
 	std::cout << "S:" << S << std::endl;
 
@@ -66,6 +68,8 @@ int main()
 	std::cout << kmp.index(S, T, 0) << std::endl;
 
 	std::cout << bm.index(S, T, 0) << std::endl;
+
+	std::cout << sunday.index(S, T, 0) << std::endl;
 
 	system("Pause");
 }

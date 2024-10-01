@@ -32,5 +32,8 @@
     <ClInclude Include="BM.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Sunday.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
