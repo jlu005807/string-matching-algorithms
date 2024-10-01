@@ -46,22 +46,16 @@ int main()
 	}
 	std::cout << d2 << std::endl;*/
 
-	int a[12];
-	BM bm;
-	bm.suffixes("BABAAB", a);
-
-	for (int i = 0; i < 13; i++)
-	{
-		std::cout << a[i] << " ";
-	}
 
 	std::string S("maba66o");
 
-	std::string T("aba");
+	std::string T("aa");
 
 	BF bf;
 
 	KMP kmp;
+
+	BM bm;
 
 	std::cout << "S:" << S << std::endl;
 
@@ -70,6 +64,8 @@ int main()
 	std::cout << bf.index(S, T, 0) << std::endl;
 
 	std::cout << kmp.index(S, T, 0) << std::endl;
+
+	std::cout << bm.index(S, T, 0) << std::endl;
 
 	system("Pause");
 }

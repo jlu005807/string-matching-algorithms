@@ -19,9 +19,9 @@ class BM :public Index
 
 public:
 	//生成坏字符偏移表
-	void preBmBc(std::string T, int Bmbc[])
+	void preBmBc(std::string T, int Bmbc[],int CHAR_SIZE=256)
 	{
-		int CHAR_SIZE = 256;//字符集范围，此处为ASIZE
+		//CHAR_SIZE为字符集范围，此处为ASIZE
 		
 		int lenT = T.size();
 		
@@ -99,6 +99,7 @@ public:
 
 
 	//生成好后缀偏移表
+	//BmGs[i]表示遇到好后缀时，模式串应该移动的距离，i 指向好后缀的下一个位置，也就是坏字符的位置
 	void preBmGs(std::string T,int BmGs[])
 	{
 		int j;
@@ -114,13 +115,15 @@ public:
 			BmGs[i] = lenT;//初始化BmGs，初始状态时没有子串和好后缀匹配所以移动距离为整个模式串的长度
 		}
 
-		j = 0;
 
 		for (int i = lenT - 1; i >= 0; i--)
 		{
-			if (suffix[i] == i + 1)//suffix[i] == i + 1 说明0到i的i + 1个字符和后缀匹配
+			if (suffix[i] == i + 1)
 			{
-				for (j; j < lenT - 1 - i; j++)
+				//suffix[i] == i + 1 说明0到i的i + 1个字符前缀和后缀匹配
+				// 并且前缀匹配滑动距离最长
+				//那么lenT-i-2处即坏字符的位置，所以[0,lenT-i-2]区间内跳转都可以为lenT-i-1
+				for (int j=0; j < lenT - 1 - i; j++)
 				{
 					if (BmGs[j] == lenT)
 					{
@@ -130,6 +133,8 @@ public:
 			}
 		}
 
+		//GS[i]的含义是好后缀的开头的前一个字符也就是坏字符位置对应的滑动距离，
+		//那么GS[len - 1 - suffix[i]]中的len - 1 - suffix[i]对应的一定是一个坏字符的位置
 		for (int i = 0; i <= lenT - 2; i++)
 		{
 			BmGs[lenT - 1 - suffix[i]] = lenT - 1 - i;
@@ -143,30 +148,38 @@ public:
 	int index(std::string S, std::string T, int pos)
 	{
 		//预处理生成偏移表
+		int CHAR_SIZE = 256;
 		int i,j;
 		int *BmGs = new int[T.size()];//好后缀
-		int* BmBc = new int[T.size()];//坏字符
+		int *BmBc = new int[CHAR_SIZE];//坏字符,注意坏字符是对于S串来说的
 
 		int n = S.size(), m = T.size();
 
 		preBmGs(T, BmGs);
 		preBmBc(T, BmBc);
 
+
 		//查找匹配
-		j = 0;
+		j = 0;//j记录S串匹配到起始位置
 		while (j <= n - m)
 		{
 			for (i = m - 1; i >= 0 && T[i] == S[i + j]; --i);
 			if (i < 0)
 			{
 				//匹配成功
+				
+				delete BmBc;
+				delete BmGs;
+
 				return j;
-				j += BmGs[0];
+
+				//j += BmGs[0];//???
 			}
 			else
 			{
+				//匹配失败，j往后滑动BmBc和BmGs滑动距离中大的那个距离
 				auto max = [&]()->int {
-					return BmGs[i] > BmGs[T[i + j]] - m + 1 + i ? BmGs[i] : BmGs[T[i + j]] - m + 1 + i;
+					return BmGs[i] > BmBc[S[i + j]] - m + 1 + i ? BmGs[i] : BmBc[S[i + j]] - m + 1 + i;
 				};
 
 				j += max();
@@ -175,6 +188,10 @@ public:
 		}
 
 		//匹配失败
+
+		delete BmBc;
+		delete BmGs;
+
 		return -1;
 
 	}
